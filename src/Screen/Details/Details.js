@@ -1,170 +1,190 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Dimensions, } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Dimensions, Pressable, ScrollView } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
 import { BarChart } from "react-native-chart-kit";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import Fontisto from "react-native-vector-icons/Fontisto";
+import LineGraph from '@chartiful/react-native-line-graph';
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 
-const Details = () => {
+const config = {
+  startAtZero: false,
+  hasXAxisBackgroundLines: false,
+  xAxisLabelStyle: {
+    prefix: '$',
+    offset: 0
+  }
+};
+
+const Details = (props) => {
+  const refScrollview = React.useRef(ScrollView)
+  let y = 0;
+  let animated = true;
+  const [isCar, setIsCar] = React.useState(true);
+  const [isBus, setIsBus] = React.useState(false);
+  const [isTrain, setIsTrain] = React.useState(false);
+
+
   return (
     <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 20,
+        paddingHorizontal: 18,
       }}>
-      <View style={styles.header}>
-        {/* <Text style={{fontSize: 25,  fontWeight: 'bold',  color:'blue'}}>
-                Spendr  <Text style={styles.innerText}> .</Text>
-                </Text> */}
-        <Image
-          source={require('../../Image/Spend.png')}
+      <ScrollView>
+        <View style={styles.head}>
+          <Text style={styles.te}>Spending </Text>
+        </View>
+
+        <View
           style={{
-            marginTop: 12,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginVertical: 8,
+            paddingHorizontal: 30,
+            marginVertical: 30,
+            marginBottom: 20,
+            paddingTop: 0
+          }}>
 
-          }}
-        />
-        <Icon name="flow-parallel" size={28} onPress={() => navigation.goBack()} />
+          <View>
+            <Text style={{ fontSize: 29, color: '#25265E', fontWeight: 'bold' }}>$12,496.00</Text>
 
-      </View>
+          </View>
+          <View style={{ marginRight: 39 }}>
+            <AntDesign
+              name="caretdown"
+              size={20}
+              style={[
+                {
 
-      <View style={{
-        flexDirection: "row",
-      }}>
-        <TouchableOpacity style={{
-          flexDirection: "row",
-          alingSelf: "center",
-          marginTop: 20,
-          backgroundColor: "blue",
-          height: 182,
-          elvator: 1,
-          width: 130,
-          borderRadius: 15
-        }}>
+                  color: '#20b2aa',
+                },
+              ]}
+            />
 
-          <Image
-            source={require('../../Image/Group.png')}
-            style={{
-              marginTop: 12,
-              marginLeft: 10,
-            }}
+
+            <Text style={{ color: '#25265E', fontSize: 10 }}>vs past month</Text>
+          </View>
+
+
+        </View>
+
+        <View style={styles.CardDetail}>
+
+          <TouchableOpacity style={[styles.CardDetail1, { backgroundColor: isCar ? '#750056' : '#009387' }]} onPress={() => {
+            refScrollview.current.scrollTo({ x: 0, y, animated });
+            setIsCar(true);
+            setIsBus(false);
+            setIsTrain(false);
+          }}>
+            <View style={styles.detailContent}>
+              <Text style={styles.title}>Day</Text>
+            </View>
+          </TouchableOpacity>
+
+
+          <View style={styles.detailContent}>
+            <Text style={{ color: 'grey', fontWeight: 'bold' }}>Week</Text>
+          </View>
+
+
+
+          <View style={styles.detailContent}>
+            <Text style={{ color: 'grey', fontWeight: 'bold' }}>Month</Text>
+          </View>
+
+          <View style={styles.detailContent}>
+            <Text style={{ color: 'grey', fontWeight: 'bold' }}>Custom</Text>
+          </View>
+
+        </View>
+
+
+
+
+        <View>
+          <LineGraph
+            data={[10, 15, 7, 20, 14, 12, 10, 20]}
+            width={375}
+            height={300}
+            isBezier
+            hasShadow
+            baseConfig={config}
+            style={styles.chart}
           />
-          <Text style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            paddingLeft: -28,
-            color: "white",
-            paddingLeft: -40,
-            marginTop: 105,
-          }}> $23,560</Text>
+        </View>
+        <View >
+          <Text style={styles.tex}>Scheduled payments</Text>
+        </View>
 
 
 
-          {/* <Text style={{ fontSize: 14, color: '#fff', marginTop: 122, textAlign:'left',paddingRight:0}}>
-            $23,560
-          </Text> */}
+        <View
+          style={{
+            flexDirection: "row",
+            // justifyContent: "space-between",
+            // marginVertical: 8,
+            paddingHorizontal: 30,
+            marginVertical: 30,
+            marginLeft: -3
+          }}>
+        <Fontisto
+            name="youtube-play"
+            size={29}
+            style={[
+              {
+                // alignSelf: "flex-start",
+                color: "red",
+                margin: 5
+              },
 
-        </TouchableOpacity>
-
-
-        <TouchableOpacity style={{
-          flexDirection: "row",
-          alingSelf: "center",
-          marginTop: 20,
-          backgroundColor: "#f0f8ff",
-          height: 182,
-          elvator: 1,
-          width: 130,
-          borderRadius: 15,
-          marginLeft: 9,
-        }}>
-
-          <Image
-            source={require('../../Image/Visa.png')}
-            style={{
-              marginTop: 12,
-              marginLeft: 10,
-            }}
+            ]}
           />
-          <Text style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            paddingLeft: -28,
-            color: "black",
-            paddingLeft: -40,
-            alignItems: 'center',
-            marginTop: 105,
-          }}>$23,560</Text>
-          {/* <Text style={styles.text}>balance</Text> */}
-          {/* 
-<View style={{textAlign: "center",paddingRight: -15}}>
-          <Text style={{ fontSize: 14, color: 'black', marginTop: 122, textAlign: 'center' }}>
-            $23,560
-          </Text>
-          </View> */}
-        </TouchableOpacity>
+          <View>
+            <Text style={{ fontSize: 17, fontWeight: 'bold', color: '#25265E' }}>Youtube Red</Text>
+            <Text style={{ color: 'grey', fontSize: 10 }}>Next Payment 202</Text>
+          </View>
+          <View>
+            <Text style={{ fontSize: 17, paddingLeft: 50, fontWeight: 'bold', color: '#25265E' }}>$3.99/mth</Text>
+
+          </View>
+        </View>
 
 
-        <TouchableOpacity style={{
-          flexDirection: "row",
-          alingSelf: "center",
-          marginTop: 20,
-          backgroundColor: "#f0f8ff",
-          height: 102,
-          elvator: 1,
-          width: 40,
-          borderRadius: 15,
-          marginLeft: 9,
-        }}>
-          <Text style={{ fontSize: 24, color: 'black', marginTop: 20, paddingLeft: 14 }}>+</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            // justifyContent: "space-between",
+            // marginVertical: 8,
+            paddingHorizontal: 20,
+            marginVertical: 10,
+            marginLeft: 0
+          }}>
+          <Ionicons
+            name="ios-logo-angular"
+            size={39}
+            style={[
+              {
+                // alignSelf: "flex-start",
+                color: "black",
+                margin: 5
+              },
 
+            ]}
+          />
+          <View>
+            <Text style={{ fontSize: 17, fontWeight: 'bold', color: '#25265E' }}>GitHub </Text>
+            <Text style={{ color: 'grey', fontSize: 10 }}>Next Payment 202</Text>
+          </View>
+          <View>
+            <Text style={{ fontSize: 17, paddingLeft: 70, fontWeight: 'bold', color: '#25265E' }}>$2.99/mth</Text>
 
-        </TouchableOpacity>
-
-
-      </View>
-
-      <View style={{ marginTop: 13 }}>
-        <Text style={styles.tex}>Spending Habit</Text>
-      </View>
-
-      <View style={styles.MainContainer}>
-        <Text style={{
-          fontSize: 14,
-          textAlign: 'center',
-          color: "blue",
-          backgroundColor: "#f0f8ff",
-          width: 350,
-          borderRadius: 20,
-        
-        }}>friday, 20th</Text>
-        <Text style={{
-          fontSize: 28, textAlign: 'center', color: 'blue', fontWeight: "bold", backgroundColor: "#f0f8ff",
-          width: 350,
-        }}> $350.36 </Text>
-        <BarChart
-          data={{
-            labels: ['Mon', 'Tues', 'Wen', 'Thr', 'fri'],
-            datasets: [{ data: [10, 20, 50, 40, 20] }],
-          }}
-          width={Dimensions.get('window').width - 10}
-          height={230}
-          yAxisLabel={'$  '}
-          chartConfig={{
-            backgroundColor: "#f0f8ff",
-            backgroundGradientFrom: "#f0f8ff",
-            backgroundGradientTo: "#f0f8ff",
-            // decimalPlaces: 1,
-            color: (opacity = 55) => 'blue',
-            style: {
-              borderRadius: 12, padding: 10
-            },
-          }}
-        />
-
-
-
-      </View>
-
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -172,29 +192,31 @@ const Details = () => {
 export default Details;
 
 const styles = StyleSheet.create({
-  header: {
+  head: {
     paddingHorizontal: 20,
-    marginTop: 30,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+
   },
-  innerText: {
-    color: 'yellow',
-    paddingRight: 20,
-  },
+
   text: {
-    fontSize: 14,
-    paddingLeft: -28,
-    color: "grey",
-    marginTop: 105,
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
   },
-  //   baseText: {
-  //     fontSize: 14,
-  //     color: '#fff',
-  //     fontSize: 14,
-  //     marginTop: 122,
-  // paddingLeft:-76,
-  // },
+
+  chart: {
+    marginBottom: 30,
+    padding: 10,
+    paddingTop: 20,
+    borderRadius: 20,
+    width: 375,
+
+  },
+
 
   MainContainer: {
     flex: 1,
@@ -206,15 +228,59 @@ const styles = StyleSheet.create({
   tex: {
     fontSize: 20,
     fontWeight: 'bold',
-    // fontFamily: 'uber-b',
     color: "black",
-    marginTop: 24,
-    paddingLeft: 19,
+    marginTop: -34,
+    paddingLeft: 39,
   },
-  // container: {
-  //   flex: 1,
-  //   justifyContent: 'center', padding: 8,
-  //   paddingTop: 30, backgroundColor: '#ecf0f1',
-  //   },
+  te: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#25265E',
+    marginTop: 20,
+    paddingTop: 0,
+    paddingLeft: 14
+  },
+
+  TextSection: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 15,
+    paddingLeft: 0,
+    marginLeft: 5,
+    width: 300,
+    borderBottomWidth: 1,
+    borderBottomColor: '#cccccc',
+  },
+
+
+
+
+  CardDetail: {
+    alignSelf: 'center',
+    marginTop: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    // position: 'absolute',
+    // backgroundColor: "#009387",
+  },
+  CardDetail1: {
+
+    borderRadius: 20,
+    marginHorizontal: 5,
+    width: '25%',
+    backgroundColor: '#fff',
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  detailContent: {
+    margin: 10,
+    alignItems: 'center',
+
+  },
+  title: {
+    fontSize: 14,
+    color: "#fff"
+  },
+
 });
 
